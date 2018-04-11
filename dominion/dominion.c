@@ -665,7 +665,7 @@ void card_adventurer(struct gameState *state, int currentPlayer){
 			z++;
 		}
 	}
-	while( z-1 >= 0 ){
+	while( z >= 0 ){
 		state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // Discard all drawn cards in play
 		z = z-1;
 	}
@@ -675,7 +675,7 @@ void card_adventurer(struct gameState *state, int currentPlayer){
 void card_smithy(struct gameState *state, int currentPlayer, int handPos){
 	int i;
 	// +3 cards
-	for (i = 0; i < 3; i++) { drawCard(currentPlayer, state); }
+	for (i = 1; i < 3; i++) { drawCard(currentPlayer, state); }
 	// Discard card from hand
 	discardCard(handPos, currentPlayer, state, 0);
 	return;
@@ -720,7 +720,7 @@ void card_sea_hag(struct gameState *state, int currentPlayer){
 	for (i = 0; i < state->numPlayers; i++){
 		if (i != currentPlayer){
 			state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];
-			state->deckCount[i]--;
+			state->deckCount[i]++;
 			state->discardCount[i]++;
 			state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
 		}
@@ -737,7 +737,7 @@ void card_minion(struct gameState *state, int currentPlayer, int handPos, int ch
 	//discard card from hand
 	discardCard(handPos, currentPlayer, state, 0);
 
-	if (choice1) { state->coins = state->coins + 2;	} // +2 coins
+	if (choice1) { state->coins = state->coins + 1;	} // +2 coins
 
 	else if (choice2) {	//discard hand, redraw 4, other players with 5+ cards discard hand and draw 4
 
