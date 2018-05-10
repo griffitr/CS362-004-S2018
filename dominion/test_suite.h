@@ -5,6 +5,7 @@
 #include "dominion_helpers.h"
 #include "rngs.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,5 +52,10 @@ void assertOtherPlayerCardsUnchanged(int currentPlayer, struct gameState before,
 void testCardsDrawn(int player, int draws[], int expectedDraws, struct gameState before, struct gameState after);
 
 void testFullDeckCount(int player, int expectedDraws, int expectedDiscards, int expectedPlayed, struct gameState before, struct gameState after);	
-	
+
+int assertFail(int statement, char errMsg[]);
+
+void randomize(int *p, int *handPos, int cardToTest, struct gameState *state);
+
+
 #endif

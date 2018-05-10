@@ -2,6 +2,33 @@ CFLAGS = -Wall -fpic -coverage -lm
 
 ##### Unit/Card Test Instructions #####
 
+randomtestcard2.out: playdom randomtestcard2
+	echo "------Random Test: Great Hall Card------" > randomtestcard2.out
+	./randomtestcard2 >> randomtestcard2.out
+	gcov -b dominion.c >> randomtestcard2.out
+	cat dominion.c.gcov >> randomtestcard2.out
+
+randomtestcard1.out: playdom randomtestcard1
+	echo "------Random Test: Village Card------" > randomtestcard1.out
+	./randomtestcard1 >> randomtestcard1.out
+	gcov -b dominion.c >> randomtestcard1.out
+	cat dominion.c.gcov >> randomtestcard1.out
+
+randomtestadventurer.out: playdom randomtestadventurer
+	echo "------Random Test: Adventurer Card------" > randomtestadventurer.out
+	./randomtestadventurer >> randomtestadventurer.out
+	gcov -b dominion.c >> randomtestadventurer.out
+	cat dominion.c.gcov >> randomtestadventurer.out
+
+randomtestcard2: randomtestcard2.c test_suite.o dominion.o rngs.o
+	gcc -o randomtestcard2 randomtestcard2.c test_suite.o dominion.o rngs.o $(CFLAGS)
+
+randomtestcard1: randomtestcard1.c test_suite.o dominion.o rngs.o
+	gcc -o randomtestcard1 randomtestcard1.c test_suite.o dominion.o rngs.o $(CFLAGS)
+
+randomtestadventurer: randomtestadventurer.c test_suite.o dominion.o rngs.o
+	gcc -o randomtestadventurer randomtestadventurer.c test_suite.o dominion.o rngs.o $(CFLAGS)
+
 unittestresults.out: playdom unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
 	echo "------Unit/Card Test Results------" > unittestresults.out
 	./unittest1 >> unittestresults.out
@@ -44,8 +71,8 @@ unittest1: unittest1.c test_suite.o dominion.o rngs.o
 rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
 
-test_suite.o: test_suite.h test_suite.c
-	gcc -c test_suite.c -g $(CFLAGS)
+test_suite.o: test_suite.h test_suite.c 
+	gcc -c test_suite.c -g -lm $(CFLAGS)
 
 dominion.o: dominion.h dominion.c rngs.o
 	gcc -c dominion.c -g  $(CFLAGS)
@@ -81,3 +108,4 @@ all: playdom player
 
 clean:
 	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -f unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4

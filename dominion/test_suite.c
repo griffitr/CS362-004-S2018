@@ -212,4 +212,57 @@ void testFullDeckCount(int player, int expectedDraws, int expectedDiscards, int 
 	}
 }
 
+// Random Testing ------------------------------- //
 
+int assertFail(int statement, char errMsg[]){
+	if (!statement) { printf("FAILED: %s\n", errMsg); return 1; }
+	return 0;
+}
+
+void randomize(int *p, int *handPos, int cardToTest, struct gameState *state){
+
+	int i;
+
+	//Random bit assignment
+	for (i = 0; i < sizeof(struct gameState); i++){
+		((char*)state)[i] = floor(Random() * 256);
+	}
+
+	*p = floor(Random() * 2);
+	state->whoseTurn = *p;
+	state->deckCount[*p] = floor(Random() * MAX_DECK);
+	state->handCount[*p] = floor(Random() * MAX_DECK);
+	state->discardCount[*p] = floor(Random() * MAX_DECK);
+	state->playedCardCount = floor(Random() * MAX_DECK);
+
+	//Assign real cards to deck
+	//Deck:
+	for (i = 0; i < state->deckCount[*p]; i++){
+		state->deck[*p][i] = floor(Random() * 27);
+	//	printf("deck card %d: %d\n", i+1, state->deck[*p][i]);
+	}
+
+	//Hand:
+	for (i = 0; i < state->handCount[*p]; i++){
+		state->hand[*p][i] = floor(Random() * 27);
+	//	printf("hand card %d: %d\n", i+1, state->hand[*p][i]);
+	
+	}
+
+	//Discard:
+	for (i = 0; i < state->discardCount[*p]; i++){
+		state->discard[*p][i] = floor(Random() * 27);
+	}
+	
+	//Played:
+	for (i = 0; i < state->playedCardCount; i++){
+		state->playedCards[i] = floor(Random() * 27);
+	}
+
+	//Place test card in hand:
+	*handPos = floor(Random() * state->handCount[*p]);
+	state->hand[*p][*handPos] = cardToTest;
+
+	//printf("Adventure card: %d| handpos: %d\n", state->hand[*p][*handPos], *handPos);
+	//printf("Deck: %d, Hand: %d, Discard: %d\n", state->deckCount[*p], state->handCount[*p], state->discardCount[*p]);
+}
