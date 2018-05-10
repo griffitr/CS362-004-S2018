@@ -61,7 +61,7 @@ int checkVillage(int p, int handPos, struct gameState *pre, struct gameState *po
 	}
 
 
-	//Check POST game state --------------------------------------------------------------------
+	//Check POST game state -----------------------------------------------------------------
 
 	//Check that card was drawn
 	fail += assertFail(pre->handCount[p] == post->handCount[p], "Hand count mismatch.");

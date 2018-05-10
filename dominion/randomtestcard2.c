@@ -23,17 +23,15 @@ int checkGreatHall(int p, int handPos, struct gameState *pre, struct gameState *
 		pre->handCount[p]++;
 		pre->hand[p][pre->handCount[p] - 1] = post->hand[p][post->handCount[p] - 1];
 
-	//	pre->hand[p][pre->handCount[p]] = post->hand[p][post->handCount[p]-1];
-	//	pre->handCount[p]++;
 		pre->deckCount[p] = pre->discardCount[p] - 1;
 		pre->discardCount[p] = 0;
+
 	}
 
 	//Action +1
 	pre->numActions++;
 
 	//Place great_hall into played cards
-
 	pre->playedCards[pre->playedCardCount] = pre->hand[p][handPos];
 	pre->playedCardCount++;
 
@@ -64,6 +62,11 @@ int checkGreatHall(int p, int handPos, struct gameState *pre, struct gameState *
 		if (post->playedCards[i] == great_hall) { postDiscardGH++; }
 	}
 
+	if (preHandGH != postHandGH){
+		printf("prehandGH: %d | posthandGH: %d\n", preHandGH, postHandGH);
+		printf("handCount: %d\n", pre->handCount[p]);
+	}
+
 	//Check POST game state ------------------------------------------------------//
 	
 	//Check that card was drawn
@@ -72,9 +75,9 @@ int checkGreatHall(int p, int handPos, struct gameState *pre, struct gameState *
 
 	//Check action count
 	fails += assertFail(pre->numActions == post->numActions, "Action num mismatch.");
-	//Check that village was discarded
-	fails += assertFail(preHandGH == postHandGH, "Incorrect num village cards in hand.");
-	fails += assertFail(preDiscardGH == postDiscardGH, "Incorrect num village cards in played.");
+	//Check that great hall was discarded
+	fails += assertFail(preHandGH == postHandGH, "Incorrect num great hall cards in hand.");
+	fails += assertFail(preDiscardGH == postDiscardGH, "Incorrect num great hall cards in played.");
 
 
 	return fails;

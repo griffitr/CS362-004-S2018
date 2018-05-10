@@ -231,7 +231,7 @@ void randomize(int *p, int *handPos, int cardToTest, struct gameState *state){
 	*p = floor(Random() * 2);
 	state->whoseTurn = *p;
 	state->deckCount[*p] = floor(Random() * MAX_DECK);
-	state->handCount[*p] = floor(Random() * MAX_DECK);
+	state->handCount[*p] = floor(Random() * (MAX_DECK - 1)) + 1;
 	state->discardCount[*p] = floor(Random() * MAX_DECK);
 	state->playedCardCount = floor(Random() * MAX_DECK);
 
